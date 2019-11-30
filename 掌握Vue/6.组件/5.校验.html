@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-world :info="1" username="chddh"></my-world>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    
+    Vue.component('my-world', {
+        props: {
+            info: {
+                type: Number,   // 校验类型
+                default: 10,
+            },
+            list: {     // 对象和数组类型， 默认值必须通过函数返回
+                type: Array,
+                default: () => [1, 2, 3],
+                // required: true
+            },
+            username: {
+                type: String,
+                validator(val) {    // 自定义校验器 
+                    return val.length === 6
+                }
+            }
+        },
+        data() {
+            return {msg: '我的世界'};
+        },
+        template: `<div><button>{{info}}</button>{{list}} - {{username}}</div>`
+    });
+    
+    let vm = new Vue({
+        el: '#app',
+        
+    });
+</script>

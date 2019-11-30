@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{msg | toUpper(3)}}
+        {{name | toLower(2)}}
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 需要对展现的数据 进行包装 But不改变原数据
+
+    // 过滤器和指令都是没有this指向的
+    // 全局过滤器
+    Vue.filter('toUpper', (value, count = 1) => {
+        return value.slice(0, count).toUpperCase() + value.slice(count);
+    });
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            msg: 'hello',
+            name: 'CHRIS'
+        },
+        // 局部指令 局部用的比较少，多数封装到全局过滤器中
+        filters: {
+            toLower(value, count) {
+                return value.substring(0, count).toLowerCase() + value.substring(count);
+            }
+        }
+    });
+</script>

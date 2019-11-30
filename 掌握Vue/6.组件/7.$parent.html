@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <collapse>
+            <collapse-item title="标题1">明天，你好</collapse-item>
+            <collapse-item title="标题2">成都</collapse-item>
+            <collapse-item title="标题3">平凡之路</collapse-item>
+        </collapse>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 折叠菜单
+    Vue.component('collapse', {
+        methods: {
+            cut(uid) {
+                console.log('uid', uid);
+                // this.$children是获取到每个子组件的实例
+                this.$children.forEach(child => {
+                    if (child._uid !== uid) {
+                        child.isShow = false;
+                    } else {
+                        child.isShow = !child.isShow;
+                    }
+                });
+            }
+        },
+        template: `<div><slot></slot></div>`
+    });
+
+    Vue.component('collapse-item', {
+        props: ['title'],
+        data() {
+            return { isShow: false }
+        },
+        methods: {
+            change() {
+                // 因为每个组件里的data返回的都是一个“新的对象”，所以同一个isShow并不影响
+                // this.isShow = !this.isShow;
+
+                // 把  展开/关闭的事情交给  父组件去做
+                // this._uid是Vue为每个组件特意分配的id
+                this.$parent.cut(this._uid);
+            }
+        },
+        template: `<div :id="_uid">
+                    <h2 @click="change">{{title}}</h2>
+                    <div v-show="isShow"><slot></slot></div>
+                </div>`
+    });
+
+    let vm = new Vue({
+        el: '#app',
+    });
+</script>

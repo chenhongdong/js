@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- .native 修饰符 相当于给组件的模板最外层添加事件 -->
+        <!-- <my-world @click.native="show"></my-world> -->
+
+        <!-- my-world this.$on('click', show) 等于下面写法 -->
+        <my-world @click="show"></my-world>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    
+    Vue.component('my-world', {
+        data() {
+            return {msg: '我的世界'};
+        },
+        // this.$listeners是所有的事件, 一个个传递方法
+        // template: '<div><span @click="$listeners.click">{{msg}}</span></div>'
+
+        // v-on="$listeners"直接应用所有的事件方法
+        // 把事件整体传入
+        // template: '<div><span v-on="$listeners">{{msg}}</span></div>',
+        
+        // 触发自身的click事件，通过$emit传给父组件
+        template: `<div><button @click="$emit('click')">点击</button></div>`
+    });
+    
+    let vm = new Vue({
+        el: '#app',
+        methods: {
+            show() {
+                alert(1);
+            }
+        }
+    });
+</script>

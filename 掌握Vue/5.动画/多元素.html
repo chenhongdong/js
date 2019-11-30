@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .box {
+        width: 100px;
+        height: 100px;
+        background: #00a1f5;
+    }
+
+    .fade-enter {
+        opacity: 0;
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity 1s linear;
+    }
+    /* .v-leave {
+        opacity: 1;
+    } */
+    .fade-leave-to {
+        opacity: 0;
+    }
+    </style>
+
+    <link rel="stylesheet" href="animate.css">
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="filter">
+        <transition-group
+            enter-active-class="bounceIn"
+            leave-active-class="bounceOut"
+        >
+            <!-- :key放索引index会导致很多重渲染 -->
+            <div class="box animated" v-if="isShow" v-for="data in calcData" :key="data.title">{{data.title}}</div>
+        </transition-group>
+
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 多个动画
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            filter: '',
+            isShow: true,
+            dataList: [
+                {title: '标题1'},
+                {title: '标题2'},
+                {title: '标题3'},
+                {title: '标题4'},
+            ]
+        },
+        computed: {
+            calcData() {
+                return this.dataList.filter(item => {
+                    return item.title.includes(this.filter);
+                });
+            }
+        }
+    });
+</script>

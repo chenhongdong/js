@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>directive</title>
+    <style>
+    .content {
+        width: 100px;
+        height: 100px;
+        background: #00a1f5;
+    }
+    </style>
+</head>
+<body>
+    <!-- 指令的作用 就是操作dom  有特定功能 -->
+    <div id="app">
+        <div v-color.a.b="'red'">指定幸存者</div>
+
+        <!-- popover -->
+        <div v-click-outside="hide">
+            <input type="text" @focus="show">
+            <div class="content" v-if="isShow">内容<button>点击</button></div>
+        </div>
+
+        <input type="text" value="写点什么吧..." v-focus="write">
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 全局指令  不需要每个组件都引用， 只需要全局引用下即可
+    Vue.directive('color', function(el, binding, vnode) {
+        // 函数里没有this，打印出的this也指的是window对象
+        el.style.border = `1px solid ${binding.value}`;
+    });
+
+    // 常用的指令来实现的有（图片懒加载，v-scroll）
+
+
+    let vm = new Vue({
+        el: '#app',
+        // 局部指令
+        directives: {
+            // 'focus'(el, binding, vnode) {
+            //     el.focus(); // 没有效果
+            // },
+            focus: {    // 默认调用的方法是bind和update
+                bind(el) {  // 1.先走bind方法,可以直接使用inserted方法
+                    // 造成focus失效的原因是指令先于dom执行了
+                    // 应该等dom加载成功后再触发指令
+                    // Vue.nextTick(() => {
+                    //     el.focus();
+                    // });
+                    console.log('bind', el);
+                },
+                inserted(el) {  // 元素插入到页面后执行的钩子
+                    el.focus();
+                },
+                update(el) {    // 每次更新会走update，依赖的数据有变化了才会触发
+                    // 注意：所有的data数据发生了变化都会触发update方法。 如：isShow被修改后也会触发
+                    console.log('update', el);
+                }
+            },
+            'click-outside'(el, binding, vnode) {
+                // 绑定给document上，事件冒泡，捕获到事件发生在谁的身上
+                document.addEventListener('click', (e) => {
+                    console.log('包含', el.contains(e.target));
+                    // 点击元素之外的就隐藏内容div
+                    if (!el.contains(e.target)) {
+                        console.log('失去', binding, vnode);
+                        vnode.context[binding.expression]();
+                    }
+                });
+            }
+        },
+        data: {
+            isShow: false,
+            write: '你好'
+        },
+        methods: {
+            show() {
+                this.isShow = true;
+            },
+            hide() {
+                this.isShow = false;
+            }
+        }
+    });
+</script>

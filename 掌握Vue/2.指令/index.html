@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- v-for  指令： v-开头  有特定功能的  操作dom元素 -->
+    <!-- 数据都需要循环来操作 [] 5 -->
+    <!-- for (let a of arr) -->
+    <!-- vue 2.5+ 版本要求循环的时候必须加key属性 为了做dom-diff处理 -->
+    <!-- template vue自带的标签 无意义 template上不能增加key属性 需要给真实的元素上添加key -->
+    <div id="app">
+        <template v-for="(item,index) in arr">
+            <!-- 多个元素 需要区分名称 可以使用 模板字符串 -->
+            <li :key="index+'_1'">{{item}}-{{index}}</li>
+            <li :key=`${index}_2`>{{item}}-{{index}}</li>
+        </template>
+
+        <ul @click="reverse">
+            <li v-for="fruit in fruits">{{fruit}}</li>
+        </ul>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            arr: [1,2,3],
+            fruits: ['香蕉', '橘子', '苹果', '葡萄']
+        },
+        methods: {
+            reverse() {
+                this.fruits.reverse();
+            }
+        }
+    });
+</script>

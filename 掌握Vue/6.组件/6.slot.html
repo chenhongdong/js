@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <panel>
+            <!-- v-slot:default123  可以简写为  #default123 -->
+            <template #default123>123</template>
+        </panel>
+
+        <!-- slot-scope => v-slot:default 默认是:default -->
+        <list :arr="arr" v-slot:haha="{id, n}">
+            <span>{{id}}-{{n}}</span>
+        </list>
+    </div>
+
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // slot 插槽    slot默认值放在slot标签中  而且名字要对应上
+    // 名字 用 # + slot名称  要对应上slot标签上的name值
+    // 写组件时希望在组件上扩展  作用域插槽 slot-scope被废弃了，换成了新的v-slot写法
+    Vue.component('panel', {
+        template: `<div>hi
+                    <slot name="default123">没对应</slot>
+                </div>`
+    });
+
+    Vue.component('list', {
+        props: ['arr'],
+        template: `<ul>
+                    <slot name="haha" v-for="item in arr" :id="item.id" :n="item.name">{{item.name}}</slot>
+                </ul>`
+    });
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            arr: [
+                {id: 1, name: '阿里巴巴'},
+                {id: 2, name: '腾讯'},
+                {id: 3, name: '支付宝'},
+                {id: 4, name: '今日头条'}
+            ]
+        }
+    });
+</script>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <parent>
+            <child></child>
+        </parent>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('parent', {
+        provide: {
+            list: [{id: 1, name: '苹果'}, {id: 2, name: '谷歌'}, {id: 3, name: '脸书'}],
+            msg: 'hello'
+        },
+        template: '<div><slot></slot></div>'
+    });
+
+    Vue.component('child', {
+        inject: ['list', 'msg'],
+        mounted() {
+            console.log('list', this.list);
+        },
+        template: `<div>
+                    {{msg}}
+                    <ul>
+                        <li v-for="item in list" :key="item.id">{{item.name}}</li>
+                    </ul>
+                </div>`
+    });
+
+    let vm = new Vue({
+        el: '#app'
+    })
+</script>

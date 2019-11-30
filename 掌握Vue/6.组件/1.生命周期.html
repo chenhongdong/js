@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{str}}
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            str: 'hello',
+            arr: [1,2,3]
+        },
+        beforeCreate() {    // 钩子 在new Vue的时候会最先调用，一般不会做太多功能，底层中可以做一些链的操作（项目中忽略使用）
+            console.log(this);  // 会初始化自己的生命周期（当前组件的父和子是谁），事件方法$on $emit
+        },
+        created() { // 响应式的数据变化观察，this.$el拿不到dom
+            console.log('created', this.$el);
+            console.log(this.arr);  // 可以拿到数据
+        },
+        // template: '<div>hi</div>',
+        /* render(createElement) { // 像react，createElement会创建一个虚拟dom(就是一个对象)
+            console.log('render');
+            return createElement('div', {
+                attrs: {
+                    id: 1
+                }
+            }, 'hello');
+        }, */
+        beforeMount() { // 这个钩子基本用不到，检测有没有template属性,有的话会把这个template渲染成一个render函数
+            console.log('beforeMount');
+        },
+        mounted() { // 可以获取到真实的dom  this.$el
+            // 一般发送请求可以发ajax请求的
+            this.str = 'world';
+
+            /* 
+                原理：先用promise.then,setImmediate,MutationObserver,setTimeout做异步延迟
+                把回调函数放到了这些异步方法之后，等数据更新完再去执行回调函数
+
+                一句话：等待数据更新后，再去回调里执行拿到变化后的数据
+            */ 
+            this.$nextTick(() => {  // 只要操作dom就用$nextTick
+                console.log('mounted', this.$el.innerHTML);
+            });
+        },
+        beforeUpdate() {    // 在更新之前再做一次修改，只会执行一次， 用的不多
+            // this.str = '你好';
+        },
+        updated() {     // 不能再修改值了，这个钩子不要  更改数据
+            console.log('updated');
+        },
+        beforeDestroy() {   // 一般情况下，用来清除定时器，移除绑定的方法事件
+            // 当组件销毁的时候会触发，当路由切换的时候，手动销毁(不太可能遇到)
+            console.log('beforeDestroy');
+        },
+        destroyed() {
+            console.log('destroyed');
+        }
+    });
+</script>

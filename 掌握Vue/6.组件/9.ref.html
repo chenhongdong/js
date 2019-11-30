@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- ref的三种情况  1.给dom上就是一个dom  2.给v-for就是一个数组  3.给组件的话得到的就是 组件的实例 -->
+        <msg ref="msg"></msg>
+        <div ref="box" class="box">盒子</div>
+        <div ref="box" class="box">盒子</div>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('msg', {
+        data() {
+            return { isShow: false }
+        },
+        methods: {
+            show() {
+                this.isShow = true;
+            }
+        },
+        template: '<div><span v-if="isShow">有新消息</span></div>'
+    });
+
+
+    let vm = new Vue({
+        el: '#app',
+        mounted() {
+            console.log('refs',this.$refs);
+            // ref这种通信方式属于  父 调 子
+            this.$refs.msg.show();
+        }
+    })
+</script>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-world :info="info"></my-world>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 组件的类型： 全局组件   局部组件   函数式组件   异步组件
+    // 为什么要有组件： 复用，方便维护，拆分方便，每个组件间作用域互不干扰
+    // 组件间的数据传递，组件就是一个自定义的标签，可以代表一些特定的功能，主要封装css,html,js
+
+
+    // 全局组件  在任何组件中可以直接使用，不需要引入
+    // 数据来源 data  props
+    // 父组件通过属性传递给子组件数据 props
+    Vue.component('my-world', { // 每个组件都有自己的生命周期
+        data() {        // 组件的数据必须是函数类型，每次调用组件，data函数都会产生一个新对象
+            return {        // 保证数据不会互相影响
+                msg: '我的世界'
+            }
+        },
+        props: ['info'],
+        mounted() {
+            console.log(this.info);
+        },
+        template: '<div>{{msg}}-{{info}}</div>'
+    });
+    
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            info: '你和我'
+        }
+    });
+</script>

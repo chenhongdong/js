@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-world :info="info" a="1" b="2"></my-world>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            info: '你和我'
+        },
+        mounted() {
+            console.log('父组件生命周期后走');
+        },
+        components: {
+            'my-world': {
+                data() {
+                    return {
+                        msg: '我的世界'
+                    }
+                },
+                inheritAttrs: false,    // 如果有没有用到的传递属性就不显示在组件标签上
+                props: ['info'],
+                template: '<div>{{msg}}-{{info}} <my v-bind="$attrs"></my></div>',
+                mounted() {
+                    // this.$attrs  表示所有没有被用到的传递属性,批量传递属性
+                    console.log('mounted', this.$attrs);    // {a: 1, b: 2}
+
+
+                    console.log('子组件生命周期先走');
+                },
+                components: {
+                    'my': {
+                        props: ['a', 'b'],
+                        template: '<div>你的世界{{a}} {{b}}</div>'
+                    }
+                }
+            }
+        }
+    });
+</script>

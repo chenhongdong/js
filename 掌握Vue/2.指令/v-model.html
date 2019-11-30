@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>V-model</title>
+</head>
+<body>
+    <div id="app">
+        <!-- v-model 就是把value值绑定给元素 并且添加input事件 -->
+        <!-- v-bind 只是动态绑定 属性 -->
+
+        <!-- v-model 可以放到任何地方 不仅仅是input这些 -->
+        <input type="text" v-model="msg">
+
+        <!-- 下面的代码和上面的v-model效果一样，v-model是个语法糖 -->
+        <!-- <input type="text" :value="msg" @input="change"> -->
+        {{msg}}
+
+        <br>
+        <!-- 复选框有两个值  true/false -->
+        <label for="check">Check</label>
+        <input type="checkbox" v-model="check" id="check">
+        {{check}}
+
+        <br>
+        <!-- 多个爱好，多个复选框 需要给value值 -->
+        <form>
+            <label for="one">足球</label>
+            <input type="checkbox" v-model="checks" id="one" value="足球">
+            <label for="two">篮球</label>
+            <input type="checkbox" v-model="checks" id="two" value="篮球">
+            <label for="three">乒乓球</label>
+            <input type="checkbox" v-model="checks" id="three" value="乒乓球">
+            {{checks}}
+        </form>
+
+        <br>
+        男<input type="radio" v-model="gender" value="男"> 女<input type="radio" v-model="gender" value="女">
+    
+
+        <br>
+        <!-- select multiple是多选 数据selected要改成数组 -->
+        <select v-model="selected" multiple>
+            <option value="0" disabled>请选择</option>
+            <option v-for="opt in options" :value="opt.id" :key="opt.id">{{opt.title}}</option>
+        </select>
+        {{selected}}
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            msg: '双向数据绑定',
+            check: true,
+            checks: [],
+            gender: '男',
+            // selected: '0',
+            selected: [],
+            options: [
+                {title: '体育', id: 1},
+                {title: '新闻', id: 2},
+                {title: '游戏', id: 3}
+            ]
+        },
+        methods: {
+            change(e) {
+                // 如果传参了需要在方法的第一个参数里写上$event
+                this.msg = e.target.value;
+            }
+        }
+    });
+</script>

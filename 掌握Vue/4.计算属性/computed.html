@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{getName}} {{x}}
+        {{fullName}}
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    // 1.computed 和 method的区别: 缓存和非缓存
+    // 2.computed 和 watch的区别:  同步和异步
+    // 什么时候用watch     简单的事件 数据变化就调用接口
+    // 什么时候用computed  只是计算一个值的结果时
+
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            firstName: '陈',
+            lastName: '左夕',
+            x: 'xo',
+            fullName: ''
+        },
+        // computed 是基于 Object.defineProperty
+        computed: { // 会有缓存 如果依赖的数据不变化不会重新执行    性能比methods好
+            // 当前依赖的数据变化了getName才会重新执行
+            // getName() { // 默认这种写法是get方法
+            //     console.log('calc')
+            //     return this.firstName + this.lastName;
+            // }
+
+
+            // 用get/set这种写法可以在vuex使用的时候实现双向数据绑定  (全选，多选)
+            getName: {
+                get() {
+                    return this.firstName + this.lastName;
+                },
+                set(val) {
+                    this.x = val;
+                }
+            }
+        },
+        watch: {    // vm.$watch
+            // 第一次调用的时候不走这里，因为监听的数据没有变化
+            // 需要换一种写法，写成 对象，目的是可以传递参数 immediate  deep {a: {a: 123}}
+            firstName: {
+                handler(newVal, oldVal) {
+                    this.fullName = this.firstName + this.lastName;
+                },
+                immediate: true,    // 立即触发函数(模拟数据firstName变化了)
+                deep: true      // 只要属性发生变化，就会触发此函数，默认只监控一层(比较耗性能，需要递归)
+            },
+
+            // firstName(newVal, oldVal) {
+            //     this.fullName = this.firstName + this.lastName;
+            // },
+            lastName(newVal, oldVal) {
+                this.fullName = this.firstName + this.lastName;
+            }
+        }
+        // methods: {
+        //     getName() {
+        //         console.log('go');
+        //         return this.firstName + this.lastName;
+        //     }
+        // }
+    })
+</script>

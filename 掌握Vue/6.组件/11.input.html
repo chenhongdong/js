@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- this.$on('update:value', change) -->
+        <my-input :value="value" @update:value="change"></my-input>
+
+        <!-- 如果改变的属性叫 value 对应的方法就叫 update:value-->
+        <my-input :value="value" @update:value="val => value = val"></my-input>
+        <!-- 上面的简写 :value.sync -->
+        <my-input :value.sync="value"></my-input>
+
+        <!-- :value + @input => v-model -->
+        <my-input :value="value" @input="val => value = val"></my-input>
+        <my-input v-model="value"></my-input>
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    Vue.component('my-input', {
+        inheritAttrs: false,
+        props: ['value'],
+        template: '<div><input type="text" :value="value" @input="change" /></div>',
+        methods: {
+            change(e) {
+                this.$emit('update:value', e.target.value);
+                // v-model相当于是监听了@input事件
+                this.$emit('input', e.target.value);
+            }
+        }
+    });
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            value: '明天，你好'
+        },
+        methods: {
+            change(val) {
+                this.value = val;
+            }
+        }
+    })
+</script>

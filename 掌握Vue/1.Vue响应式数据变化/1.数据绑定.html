@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        {{ flag ? '正确' : '错误'}}
+        {{msg}}
+    </div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            flag: true,
+            msg: 'hi'
+        }
+    });
+    // 1-vm.$el 指代的就是当前的元素
+    vm.msg = 'hello';   // dom更新是异步的
+    console.log('$el', vm.$el.innerHTML);
+
+    // 2-vm.$nextTick 延迟  在当前dom更新完之后再去执行回调
+    vm.$nextTick(() => {
+        console.log('next', vm.$el.innerHTML);
+    });
+
+    // 3-vm.$watch 监控
+    vm.$watch('msg', (newVal, oldVal) => {
+        console.log(newVal, oldVal);
+    });
+
+    vm.msg = '你好';
+
+    // 4-vm.$data 当前的数据对象
+    console.log(vm.$data);
+
+    // 5-vm.$options 所有的选项
+    console.log('options', vm.$options);
+
+    // 6-vm.$set
+
+    // 7-vm.$mount 挂载   单元测试，在内存中挂载VUE实例，此时只能用$mount
+    
+</script>
