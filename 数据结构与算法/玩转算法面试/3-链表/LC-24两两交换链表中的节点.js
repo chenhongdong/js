@@ -19,6 +19,44 @@
  * @param {ListNode} head
  * @return {ListNode}
  */
-var swapPairs = function(head) {
-    
+
+
+// 时间复杂度： O(n)
+// 空间复杂度： O(1)
+var swapPairs = function (head) {
+    let dummyHead = new ListNode(0); // 虚拟头节点
+    dummyHead.next = head;
+
+    let prev = dummyHead;
+
+    while (prev.next && prev.next.next) {
+        let node1 = prev.next;
+        let node2 = node1.next;
+        let next = node2.next;
+        // 交换过程
+        node2.next = node1;
+        node1.next = next;
+        prev.next = node2;
+        // 现在node1为一对节点中靠后的那个节点了
+        prev = node1;
+    }
+
+    return dummyHead.next;
 };
+
+
+
+/*
+解题思路：
+    1的前一个节点指向2
+    2指向1
+    1的后一个节点指向2的后一个节点
+
+   pre  node1    node2      next
+    0    1   ->    2     ->  3      ->  4  ->null
+    node2.next = node1
+    node1.next = next
+    pre.next = node2
+
+
+*/
