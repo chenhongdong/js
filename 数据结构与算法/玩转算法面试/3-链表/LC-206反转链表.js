@@ -22,16 +22,16 @@
 //  时间复杂度： O(n)
 //  空间复杂度： O(1)
 var reverseList = function(head) {
+    if (!head) {
+        return null;
+    }
     let pre = null;
     let cur = head;
-    // cur不为null的时候
     while (cur) {
         let next = cur.next;
-        
         cur.next = pre;
         pre = cur;
         cur = next;
     }
-
-    return pre;
+    return pre; // pre为新的链表的头节点
 };
