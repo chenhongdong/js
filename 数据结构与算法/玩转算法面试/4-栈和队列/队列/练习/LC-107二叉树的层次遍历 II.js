@@ -26,10 +26,10 @@ function Pair(node, level) {
     this.level = level;
 }
 
-function depth(node) {
+function maxDepth(node) {
     if (!node) return 0;
-    let left = depth(node.left);
-    let right = depth(node.right);
+    let left = maxDepth(node.left);
+    let right = maxDepth(node.right);
     return Math.max(left, right) + 1;
 }
 
@@ -39,7 +39,7 @@ var levelOrderBottom = function(root) {
         return res;
     }
     // 树的高度
-    let h = depth(root);
+    let h = maxDepth(root);
     for (let i = 0; i < h; i++) {
         res.push([]);
     }
