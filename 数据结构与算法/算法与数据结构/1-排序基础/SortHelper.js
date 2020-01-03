@@ -2,7 +2,7 @@
 function randomArray(n, rangeL, rangeR) {
     let arr = [];
     for (let i = 0; i < n; i++) {
-        arr.push(Math.random() * (rangeR - rangeL) + rangeL);
+        arr.push(Math.floor(Math.random() * (rangeR - rangeL) + rangeL));
     }
     return arr;
 }
