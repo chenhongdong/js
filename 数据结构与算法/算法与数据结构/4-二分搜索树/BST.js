@@ -46,4 +46,60 @@ class BST {
             node.right = this._insert(node.right, key, value);
         }
     }
+    // 深度优先遍历O(n)
+    // 前序遍历 -> 遍历每个节点
+    // preOrder(node) {
+    //     if (!node) {
+    //         console.log(node.key);
+    //         this.preOrder(node.left);
+    //         this.preOrder(node.right);
+    //     }
+    // }
+    // 前序遍历的非递归实现
+    preOrder(node) {
+        let stack = [];
+        stack.push(node);
+        while (stack.length) {
+            let cur = stack.pop();
+            console.log(cur);
+            // 后进先出
+            if (cur.right !== null) {
+                stack.push(cur.right);
+            }
+            if (cur.left !== null) {
+                stack.push(cur.left);
+            }
+        }
+    }
+    // 中序遍历 -> 可以实现从小到大排序
+    inOrder(node) {
+        if (!node) {
+            this.inOrder(node.left);
+            console.log(node.key);
+            this.inOrder(node.right);
+        }
+    }
+    // 后序遍历 -> 从叶子节点开始释放
+    postOrder(node) {
+        if (!node) {
+            this.postOrder(node.left);
+            this.postOrder(node.right);
+            console.log(node.key);
+        }
+    }
+
+    // 广度优先遍历O(n)
+    levelOrder() {
+        let q = [];
+        q.push(this.root);
+        while (q.legth) {
+            let node = q.shift();
+            console.log(node.key);
+
+            if (node.left)
+                q.push(node.left);
+            if (node.right)
+                q.push(node.right);
+        }
+    }
 }
