@@ -75,13 +75,26 @@ var rob = function (nums) {
 
     for (let i = n - 2; i >= 0; i--) {
         for (let j = i; j < n; j++) {
+
             memo[i] = Math.max(memo[i], nums[j] + (j + 2 < n ? memo[j + 2] : 0));
+            console.log(memo[i]);
         }
     }
 
     return memo[0];
 };
 
-console.log(rob([2, 7, 9, 3, 1]))
 
+// 第3种解法
+var rob = function(nums) {
+    let cur = 0, pre = 0, tmp = 0;
+    for (let i = 0; i < nums.length; i++) {
+        tmp = cur;
+        if (pre + nums[i] > cur) {
+            cur = pre + nums[i];
+        }
+        pre = tmp;
+    }
+    return cur;
+};
 

@@ -9,17 +9,18 @@
         所以返回 [0, 1]
 */
 
-let nums = [7, 2, 15, 11], target = 9;
+let nums = [7, 2, 15, 11, 5], target = 20;
 
 
 var twoSum = function(nums, target) {
     let map = new Map();
 
     for (let i = 0; i < nums.length; i++) {
-        let last = target - nums[i];    // 16;  11; 7;  3
+        let last = target - nums[i];
 
         if (map.has(last)) {
             let res = [map.get(last), i];
+            console.log(res);
             return res;
         }
 
@@ -28,3 +29,6 @@ var twoSum = function(nums, target) {
 };
 
 console.log(twoSum(nums, target));
+
+
+

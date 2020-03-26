@@ -35,7 +35,7 @@ var numSquares = function (n) {
         let { num, dis } = q.shift();
 
         for (let i = 1; ; i++) {
-            let distance = num - i*i;
+            let distance = num - i * i;
             if (distance < 0) {
                 break;
             }
