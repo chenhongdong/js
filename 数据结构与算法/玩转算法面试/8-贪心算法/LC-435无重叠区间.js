@@ -60,17 +60,17 @@ var eraseOverlapIntervals = function(intervals) {
     // 将二维数组由小到大排序，
     intervals.sort((a, b) => {
         if (a[1] !== b[1]) {
-            return a[1] - b [1];
+            return a[1] - b[1];
         }
         return a[0] - b[0];
     });
     // 能保留的最大区间值
     let num = 1;
-    let prev = 0;
+    let pre = 0;
     for (let i = 1; i < intervals.length; i++) {
         if (intervals[i][0] >= intervals[pre][1]) {
             num++;
-            prev = i;
+            pre = i;
         }
     }
 
@@ -78,4 +78,5 @@ var eraseOverlapIntervals = function(intervals) {
 };
 
 let arr = [ [3,4], [1,2], [2,3], [1,3] ];
+// 排序后arr[ [1,2], [1,3], [2,3], [3,4]]
 console.log(eraseOverlapIntervals(arr));

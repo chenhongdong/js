@@ -28,12 +28,14 @@ var numberOfBoomerangs = function (points) {
         for (let j = 0; j < points.length; j++) {
             if (i !== j) {
                 let dis = distance(points[i], points[j]);   // 计算两点之间的距离
+                console.log('距离',dis);
                 if (map.has(dis)) {
                     map.set(dis, map.get(dis) + 1);
                 } else {
                     map.set(dis, 1);
                 }
-
+                // 出现相同距离的次数只要超过2次就表示i到j和i到k的距离都相等
+                // 这样的结果有2的阶乘个, 2!
                 if (map.get(dis) >= 2) {
                     sum += 2 * (map.get(dis) - 1);
                 }

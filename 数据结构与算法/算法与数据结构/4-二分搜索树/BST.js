@@ -92,7 +92,7 @@ class BST {
     levelOrder() {
         let q = [];
         q.push(this.root);
-        while (q.legth) {
+        while (q.length) {
             let node = q.shift();
             console.log(node.key);
 

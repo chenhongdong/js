@@ -47,4 +47,34 @@ var permute = function (nums) {
     return res;
 };
 
-console.log(permute([]));
+console.log(permute( [['A','B'], ['a','b'], [1, 2]] ));
+
+
+function fn(arr1, arr2) {
+    let rtn = [];
+    for (let i = 0, len = arr1.length; i < len; i++) {
+        let s = arr1[i];
+        for (let j = 0, l = arr2.length; j < l; j++) {
+            rtn.push(s + arr2[j]);
+        }
+    }
+    return rtn;
+    
+}
+function print(arr) {
+    return arr.reduce(function(arr1, arr2) {
+        return fn(arr1, arr2);
+    });
+}
+let arr = [['A', 'B'], ['a', 'b'], ['1', '2']];
+console.log(print(arr));
+
+
+Promise.resolve().then(()=>{
+
+    return Promise.resolve(new Promise(res => res(123)))
+    
+    }).then( data => {
+        console.log(data);
+    })
+

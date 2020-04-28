@@ -26,11 +26,14 @@ var minSubArrayLen = function(s, nums) {
         if (sum < s && r + 1 < nums.length) {   // r+1<nums.length处理边界
             r++;
             sum += nums[r];
+            console.log('右边', sum)
         } else {
             sum -= nums[l++];
+            console.log('左边', sum)
         }
 
         if (sum >= s) {
+            console.log(r-l+1)
             res = Math.min(res, r - l + 1);
         }
     }
@@ -41,5 +44,4 @@ var minSubArrayLen = function(s, nums) {
 
     return res;
 };
-let s = 7, nums = [2,3,1,2,4,3];
-console.log(minSubArrayLen(s, nums))
+minSubArrayLen(7, [2,3,1,2,4,3])

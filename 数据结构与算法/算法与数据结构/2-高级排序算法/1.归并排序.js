@@ -57,9 +57,13 @@ let mergeSort = function (arr, n) {
     sort(arr, 0, n - 1);
 }
 
+let arr = [8, 3, 6, 2, 7, 1, 5, 4];
+mergeSort(arr, arr.length);
+console.log(arr);
+
 
 // 测试用例
-let n = 100000;
-let { randomArray, testSort, orderedArray } = require('../1-排序基础/SortHelper');
-let arr = randomArray(n, 0, n);     // 插入排序处理近乎有序的数组来说，性能会更好，时间复杂度O(n)
-testSort('mergeSort', mergeSort, arr, n);
+// let n = 100000;
+// let { randomArray, testSort, orderedArray } = require('../1-排序基础/SortHelper');
+// let arr = randomArray(n, 0, n);     // 插入排序处理近乎有序的数组来说，性能会更好，时间复杂度O(n)
+// testSort('mergeSort', mergeSort, arr, n);

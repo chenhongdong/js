@@ -55,8 +55,7 @@ var moveZeroes = function (nums) {
     for (let i = 0; i < nums.length; i++) {
         if (nums[i]) {  // 取非0元素
             if (k !== i) {
-                swap(nums, k, i);
-                k++;
+                swap(nums, k++, i);
             } else {    // k === i
                 k++;
             }

@@ -40,3 +40,29 @@ for (let i = 0; i < n; i++) {
     binarySearch(arr, i);
 }
 console.timeEnd('binarySearch');
+
+
+var search = function(nums, target) {
+    // l和r确定的是nums[l...r]的查找范围
+    let l = 0, r = nums.length - 1;
+
+    while (l <= r) {
+        // l+r这种会在l和r都非常大的时候造成整型溢出，所以不使用加法操作改成l + (r - l) / 2
+        let mid = Math.floor(l + (r - l) / 2);
+        if (nums[mid] === target) {
+            return mid;
+        }
+        if (nums[mid] > target) {
+            r = mid - 1;
+        } else {
+            l = mid + 1;
+        }
+    }
+    // 如果最后都没有查到就是-1了
+    return -1;
+};  
+
+
+
+let nums = [-1,0,3,5,9,12], target = 9;
+console.log(search(nums, target));;

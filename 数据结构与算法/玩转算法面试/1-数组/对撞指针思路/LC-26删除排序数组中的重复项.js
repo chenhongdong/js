@@ -30,23 +30,25 @@ var removeDuplicates = function(nums) {
     return nums.length;
 };
 
-removeDuplicates([0,0,1,1,1,2,2,3,3,4]);
+// removeDuplicates([0,0,1,1,1,2,2,3,3,4]);
+removeDuplicates([15, 20, 19, 20, 15, 0, 22, 30, 30]);
+
 
 
 // 优化一下,好像不对
-/* var removeDuplicates = function(nums) {
-    if (nums.length <= 1) {
-        return nums.length;
-    }
+var removeDuplicates = function(nums) {
     let k = 0;
-    for (let i = 1; i < nums.length; i++) {
-        if (nums[i] !== nums[k]) {
-            nums[k + 1] = nums[i];
-            k++;
+
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== nums[i+1]) {
+            // nums[k] = nums[i];
+            k++
         }
     }
-    console.log('k',k);
-    return k + 1;
+    console.log(nums, k);
+    return k;
 };
 
-removeDuplicates([15, 20, 19, 20, 15, 0, 22, 30, 30]); */
+// removeDuplicates([1, 1, 2]);
+// removeDuplicates([0,0,1,1,1,2,2,3,3,4]);
+removeDuplicates([0, 15, 15, 19, 20, 20, 22, 30, 30]);
